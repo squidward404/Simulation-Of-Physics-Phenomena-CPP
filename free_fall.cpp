@@ -10,7 +10,7 @@ float time;
 };
 
 int main(){
-    Ball b1; //instantiating ball object
+    Ball b1; 
     double y_direction=60;
     int screen_width=800;
     int screen_height=600;
