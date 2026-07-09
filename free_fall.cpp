@@ -6,7 +6,6 @@ using namespace std;
 struct Ball{
 const float acceleration=9.8;
 double velocity=0;
-float time;
 };
 
 int main(){
