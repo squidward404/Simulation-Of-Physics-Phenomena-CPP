@@ -20,6 +20,7 @@ SetTargetFPS(60);
 while(WindowShouldClose()==false){
 BeginDrawing();
 ClearBackground(BLACK);
+DrawText("Free-Fall",10,20,50,GREEN);
 y_direction+=b1.velocity*(1.0/60.0);
 DrawCircle(400,y_direction,50,RED);
 b1.velocity+=b1.acceleration*(1.0/60.0);
