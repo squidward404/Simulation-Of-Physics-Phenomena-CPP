@@ -1,4 +1,5 @@
 #include<iostream>
+#include<cmath>
 #include <raylib.h>
 using namespace std;
 
@@ -7,20 +8,26 @@ class Ball{
     public:
 const int radius=50;
 const float acceleration=9.8;
-double velocity=0;
-double y_direction=60;
+float velocity=0;
+float coefficient_of_restitution=0.8;
+float y_direction=60;
 
 //update ball position
-void update(){
+void update(int screen_height){
+if(velocity==0&&y_direction+radius>=screen_height){
+return; //stay at rest
+}
 velocity+=acceleration*(1.0/3.0);
 y_direction+=velocity*(1.0/3.0);
 }
 //check collusion
-void check_collusion(int screen_height){
+void check_collision(int screen_height){
 if(y_direction+radius>=screen_height){
 y_direction=screen_height-radius;//prevent the ball from sinking by always adjusting the y_direction
-velocity*=-1; //reverse the movement direction making it bounce
-velocity+=7.5;//assuming the speed loss at every bounce is 7.5 
+velocity*=-coefficient_of_restitution; //reverse the movement direction making it bounce
+if(fabs(velocity)<2){
+    velocity=0;
+}
 }
 }
 };
@@ -38,12 +45,12 @@ BeginDrawing();
 ClearBackground(BLACK);
 DrawText("Free-Fall",10,20,30,GREEN);
 //print the value of y_direction at every frame
-DrawText(TextFormat("y_direction=%.2f",ball.y_direction),10,60,20,WHITE);
+DrawText(TextFormat("y_direction = %.2f",ball.y_direction),10,60,20,WHITE);
 //print the value of velocity at every frame
-DrawText(TextFormat("velocity=%.2f",ball.velocity),10,90,20,WHITE);
+DrawText(TextFormat("velocity = %.2f",ball.velocity),10,90,20,WHITE);
+ball.update(screen_height); //update position
+ball.check_collision(screen_height); //check collusion
 DrawCircle(400,ball.y_direction,ball.radius,RED); //draw the circle
-ball.update(); //update position
-ball.check_collusion(screen_height); //check collusion
 
 EndDrawing();
 }
